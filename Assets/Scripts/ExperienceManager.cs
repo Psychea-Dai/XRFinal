@@ -3,6 +3,7 @@ using UnityEngine;
 public class ExperienceManager : MonoBehaviour
 {
     [Header("References")]
+    public OrganismController organism;
     public Light ambientLight;
     public ParticleSystem particles;
     public GameObject spectrumAnalyzer; // 你的SpectrumLine
@@ -43,7 +44,10 @@ public class ExperienceManager : MonoBehaviour
         // 3个以上触发粒子
         if (placedCount >= 3 && particles != null)
             particles.Play();
-
+          // ← 加这一行，把placedCount传给生命体
+        if (organism != null)
+        organism.UpdateActiveCount(placedCount);
+        
         // 5个全放置 — 完全绽放
         if (placedCount >= 5)
             FullBloom();
