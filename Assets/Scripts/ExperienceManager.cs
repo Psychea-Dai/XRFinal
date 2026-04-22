@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class ExperienceManager : MonoBehaviour
 {
     [Header("References")]
@@ -64,4 +65,6 @@ public class ExperienceManager : MonoBehaviour
         if (ambientLight != null)
             ambientLight.color = new Color(1f, 0.9f, 0.7f); // 暖黄光
     }
+    
+
 }

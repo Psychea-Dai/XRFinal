@@ -1,5 +1,6 @@
 using UnityEngine;
 
+
 public class OrganismController : MonoBehaviour
 {
     // 在Inspector里拖入Animator组件
