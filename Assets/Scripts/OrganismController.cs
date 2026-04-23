@@ -51,21 +51,30 @@ public class OrganismController : MonoBehaviour
 
     // 这个函数由StateManager调用
     // 每次有track激活或关闭时传入新的count值
-    public void UpdateActiveCount(int newCount)
+   public void UpdateActiveCount(int newCount)
+{
+    currentCount = newCount;
+    
+    // 先回到Idle状态，强制动画重新播放
+    animator.Play("Idle");
+    
+    // 等一帧再切换到目标状态
+    StartCoroutine(PlayClipDelayed(currentCount));
+    
+    if (currentCount >= 5)
     {
-        currentCount = newCount;
-        
-        // 更新Animator参数，触发对应动画
-        animator.SetInteger("activeCount", currentCount);
-        
-        // 判断是否进入Full Bloom
-        if (currentCount >= 5)
-        {
-            isFullBloom = true;
-        }
-        else
-        {
-            isFullBloom = false;
-        }
+        isFullBloom = true;
     }
+    else
+    {
+        isFullBloom = false;
+    }
+}
+
+private System.Collections.IEnumerator PlayClipDelayed(int count)
+{
+    yield return null; // 等一帧
+    animator.SetInteger("activeCount", count);
+}
+
 }
