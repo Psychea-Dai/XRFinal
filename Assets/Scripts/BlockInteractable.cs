@@ -15,12 +15,19 @@ public class BlockInteractable : MonoBehaviour
     [Header("Visual")]
     public Renderer domeRenderer;
 
-    // 每个变体的颜色，也作为base颜色
+    // 👇 粒子
+    [Header("Hit Feedback")]
+    [SerializeField] private ParticleSystem hitParticles;
+
+    // 👇 新增：波纹 Prefab
+    [SerializeField] private GameObject ripplePrefab;
+
+    // 每个变体的颜色
     private Color[] variantColors = new Color[]
     {
-        new Color(2f, 0.6f, 2f),    // 变体0 粉紫
-        new Color(0.6f, 2f, 2f),    // 变体1 青蓝
-        new Color(2f, 1.5f, 0.3f)   // 变体2 金黄
+        new Color(2f, 0.6f, 2f),
+        new Color(0.6f, 2f, 2f),
+        new Color(2f, 1.5f, 0.3f)
     };
 
     void Start()
@@ -34,7 +41,6 @@ public class BlockInteractable : MonoBehaviour
             audioSource.Play();
         }
 
-        // 设置初始颜色为变体0的颜色
         if (domeRenderer != null)
             domeRenderer.material.SetColor("_EmissionColor", variantColors[0] * 0.5f);
     }
@@ -51,9 +57,12 @@ public class BlockInteractable : MonoBehaviour
             audioSource.Play();
         }
 
-        // 切换颜色反馈
         if (domeRenderer != null)
             domeRenderer.material.SetColor("_EmissionColor", variantColors[currentVariant]);
+
+        // 👇 粒子 + 波纹
+        PlayHitParticles();
+        SpawnRipple();
     }
 
     public void OnRelease()
@@ -64,20 +73,28 @@ public class BlockInteractable : MonoBehaviour
     public void OnTap()
     {
         currentVariant = (currentVariant + 1) % variants.Length;
+
         if (audioSource != null && variants[currentVariant] != null)
         {
             audioSource.clip = variants[currentVariant];
             audioSource.Play();
         }
+
         if (domeRenderer != null)
             domeRenderer.material.SetColor("_EmissionColor", variantColors[currentVariant]);
+
+        // 👇 粒子 + 波纹
+        PlayHitParticles();
+        SpawnRipple();
     }
 
     public void OnPlaced()
     {
         isPlaced = true;
+
         if (audioSource != null)
             audioSource.volume = 1f;
+
         if (domeRenderer != null)
             domeRenderer.material.SetColor("_EmissionColor",
                 variantColors[currentVariant] * 2f);
@@ -86,8 +103,10 @@ public class BlockInteractable : MonoBehaviour
     public void OnRemoved()
     {
         isPlaced = false;
+
         if (audioSource != null)
             audioSource.volume = 0f;
+
         if (domeRenderer != null)
             domeRenderer.material.SetColor("_EmissionColor",
                 variantColors[currentVariant] * 0.5f);
@@ -111,5 +130,27 @@ public class BlockInteractable : MonoBehaviour
                 domeRenderer.material.SetColor("_EmissionColor",
                     variantColors[currentVariant] * 2f);
         }
+    }
+
+    // ===== 粒子 =====
+    void PlayHitParticles()
+    {
+        if (hitParticles != null)
+        {
+            hitParticles.Play();
+        }
+    }
+
+    // ===== 🌊 新增：波纹 =====
+    void SpawnRipple()
+    {
+        if (ripplePrefab == null) return;
+
+        Vector3 pos = transform.position;
+
+        // 👉 关键：避免被地面遮住
+        pos.y = 0.01f;
+
+        Instantiate(ripplePrefab, pos, Quaternion.Euler(90, 0, 0));
     }
 }
