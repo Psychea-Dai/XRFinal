@@ -15,6 +15,11 @@ public class ExperienceManager : MonoBehaviour
 
     void Start()
     {
+        if (organism == null)
+        organism = FindObjectOfType<OrganismController>();
+    
+    Debug.Log("Organism found: " + organism);
+
         // 初始状态
         if (particles != null) particles.Stop();
         if (ambientLight != null)
@@ -27,6 +32,7 @@ public class ExperienceManager : MonoBehaviour
     // 由DropZone的onBlockCountChanged调用
     public void OnBlockPlaced(int count)
     {
+        Debug.Log("OnBlockPlaced called: " + count);
         placedCount = count;
         UpdateEnvironment();
     }
@@ -66,5 +72,7 @@ public class ExperienceManager : MonoBehaviour
             ambientLight.color = new Color(1f, 0.9f, 0.7f); // 暖黄光
     }
     
+
+
 
 }

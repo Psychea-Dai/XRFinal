@@ -31,7 +31,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Clip_Rhythm Start 0   End 40
+      name: Clip_Rhythm
       takeName: "model|model\u52A8\u4F5C"
       internalID: 5660004749933954950
       firstFrame: 0
@@ -60,7 +60,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Clip_Bass     Start 40   End 80
+      name: Clip_Bass
       takeName: "model|model\u52A8\u4F5C"
       internalID: -544277524690480066
       firstFrame: 40
@@ -89,7 +89,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Clip_Harmony  Start 80   End 120
+      name: Clip_Harmony
       takeName: "model|model\u52A8\u4F5C"
       internalID: -7994761388849810601
       firstFrame: 80
@@ -118,7 +118,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Clip_Melody   Start 120  End 160
+      name: Clip_Melody
       takeName: "model|model\u52A8\u4F5C"
       internalID: -4623574184215069697
       firstFrame: 120
@@ -147,7 +147,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Clip_Sample   Start 160  End 200
+      name: Clip_Sample
       takeName: "model|model\u52A8\u4F5C"
       internalID: 2719145317957172910
       firstFrame: 160
@@ -204,7 +204,7 @@ ModelImporter:
     generateMeshLods: 0
     meshLodGenerationFlags: 0
     maximumMeshLod: -1
-    meshOptimizationFlags: -1
+    meshOptimizationFlags: 0
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
