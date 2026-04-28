@@ -1,27 +1,36 @@
 using UnityEngine;
 
-
 public class ExperienceManager : MonoBehaviour
 {
     [Header("References")]
     public OrganismController organism;
     public Light ambientLight;
     public ParticleSystem particles;
-    public GameObject spectrumAnalyzer; // 你的SpectrumLine
+    public GameObject spectrumAnalyzer;
 
     [Header("Settings")]
     public Color[] ambientColors = new Color[5];
+
+    [Header("Debug")]
+    [Range(0, 5)]
+    public int debugCount = 0;
+
     private int placedCount = 0;
 
     void Start()
     {
         if (organism == null)
-        organism = FindObjectOfType<OrganismController>();
-    
-    Debug.Log("Organism found: " + organism);
+        {
+            organism = FindAnyObjectByType<OrganismController>();
+        }
 
-        // 初始状态
-        if (particles != null) particles.Stop();
+        Debug.Log("Organism found: " + organism);
+
+        if (particles != null)
+        {
+            particles.Stop();
+        }
+
         if (ambientLight != null)
         {
             ambientLight.intensity = 0.1f;
@@ -29,11 +38,11 @@ public class ExperienceManager : MonoBehaviour
         }
     }
 
-    // 由DropZone的onBlockCountChanged调用
     public void OnBlockPlaced(int count)
     {
         Debug.Log("OnBlockPlaced called: " + count);
-        placedCount = count;
+
+        placedCount = Mathf.Clamp(count, 0, 5);
         UpdateEnvironment();
     }
 
@@ -41,23 +50,34 @@ public class ExperienceManager : MonoBehaviour
     {
         float progress = placedCount / 5f;
 
-        // 渐进式环境光
         if (ambientLight != null)
         {
             ambientLight.intensity = Mathf.Lerp(0.1f, 2f, progress);
             ambientLight.color = Color.Lerp(Color.black, Color.white, progress);
         }
 
-        // 3个以上触发粒子
-        if (placedCount >= 3 && particles != null)
-            particles.Play();
-          // ← 加这一行，把placedCount传给生命体
+        if (particles != null)
+        {
+            if (placedCount >= 3)
+                particles.Play();
+            else
+                particles.Stop();
+        }
+
         if (organism != null)
-        organism.UpdateActiveCount(placedCount);
-        
-        // 5个全放置 — 完全绽放
+        {
+            Debug.Log("Sending count to OrganismController: " + placedCount);
+            organism.UpdateActiveCount(placedCount);
+        }
+        else
+        {
+            Debug.LogWarning("OrganismController is missing.");
+        }
+
         if (placedCount >= 5)
+        {
             FullBloom();
+        }
     }
 
     void FullBloom()
@@ -69,10 +89,16 @@ public class ExperienceManager : MonoBehaviour
         }
 
         if (ambientLight != null)
-            ambientLight.color = new Color(1f, 0.9f, 0.7f); // 暖黄光
+        {
+            ambientLight.color = new Color(1f, 0.9f, 0.7f);
+        }
     }
-    
 
+    // 🔥 Easy testing: change debugCount in Play Mode
+    void OnValidate()
+    {
+        if (!Application.isPlaying) return;
 
-
+        OnBlockPlaced(debugCount);
+    }
 }

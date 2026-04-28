@@ -212,7 +212,7 @@ AnimatorStateMachine:
     m_Position: {x: 110, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 970899591306798391}
-    m_Position: {x: 540, y: 220, z: 0}
+    m_Position: {x: 510, y: 230, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -4641264160745557841}
     m_Position: {x: 540, y: 340, z: 0}
@@ -424,7 +424,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 'Clip_Sample '
+  m_Name: Clip_5
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
